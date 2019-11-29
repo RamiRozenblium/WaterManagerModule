@@ -2,10 +2,10 @@ package com.service;
 
 public interface IWaterTanks {
 
-	int getMaxCapacity(int idTank);
+	double getMaxCapacity(int id);
 
-	int getCurrentCapacity(int idTank);
+	double getCurrentCapacity(int idTank);
 
-	boolean addWater(int idTanks, int volumeOfLiters);
+	boolean addWater(int idTanks, double volumeOfLiters);
 
 }

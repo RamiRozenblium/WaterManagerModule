@@ -14,18 +14,18 @@ public class WaterTanksController {
 	WaterTanksService waterTanksService;
 
 	@GetMapping("/max/tank/{id}")
-	int getMaxCapacity(@PathVariable int idTank) {
-		return waterTanksService.getMaxCapacity(idTank);
+	double getMaxCapacity(@PathVariable int id) {
+		return waterTanksService.getMaxCapacity(id);
 
 	}
 
 	@GetMapping("/current/tank/{idTank}")
-	int gerCurrentCapacity(@PathVariable int idTank) {
+	double gerCurrentCapacity(@PathVariable int idTank) {
 		return waterTanksService.getCurrentCapacity(idTank);
 	}
 
 	@PostMapping("/tank/{idTanks}/{liters}")
-	boolean addWater(@PathVariable int idTanks, @PathVariable int liters) {
+	boolean addWater(@PathVariable int idTanks, @PathVariable double liters) {
 		return waterTanksService.addWater(idTanks, liters);
 	}
 }
