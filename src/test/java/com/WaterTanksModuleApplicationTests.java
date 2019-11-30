@@ -1,33 +1,60 @@
 package com;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.service.WaterTanksService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
-import com.controller.WaterTanksController;
+import javax.validation.constraints.AssertTrue;
+import java.math.BigDecimal;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
+import static org.junit.Assert.assertTrue;
+
 class WaterTanksModuleApplicationTests {
 
-	@Autowired
-	private WaterTanksController controller;
-	
-	@Autowired
-	  private MockMvc mockMvc;
-	
-	@Test	
-	void contextLoads() throws Exception{
-		assertThat(controller).isNotNull();
-		
+	@Test()
+	void testNoTanks() {
+		WaterTanksService waterService = new WaterTanksService();
+		waterService.createTanks(0, 0);
+
+		assertTrue(waterService.getTanks().size() == 0);
 	}
-	
-	
+
+	@Test()
+	void testTankNotExist() {
+		WaterTanksService waterService = new WaterTanksService();
+		waterService.createTanks(0, 0);
+
+		Throwable thrown = Assertions.assertThrows(RuntimeException.class,
+				() -> waterService.addWater(0, BigDecimal.valueOf(0)));
+
+		assertTrue(thrown.getMessage().contains("id does not exist"));
+	}
+
+	@Test()
+	void testIvalidValue() {
+		WaterTanksService waterService = new WaterTanksService();
+		waterService.createTanks(1, 0);
+
+		Throwable thrown = Assertions.assertThrows(RuntimeException.class,
+				() -> waterService.addWater(0, BigDecimal.valueOf(-1)));
+
+		assertTrue(thrown.getMessage().contains("volume is invalid"));
+	}
+
+	@Test()
+	void testOverloadTank() {
+		WaterTanksService waterService = new WaterTanksService();
+		waterService.createTanks(1, 50);
+		Assertions.assertFalse(waterService.addWater(0, BigDecimal.valueOf(60)));
+	}
+
+	@Test()
+	void testMaxCapacity() {
+		WaterTanksService waterService = new WaterTanksService();
+		waterService.createTanks(1, 50);
+		waterService.addWater(0, BigDecimal.valueOf(50));
+		Assertions.assertEquals(BigDecimal.valueOf(50.0), waterService.getMaxCapacity(0));
+
+	}
+
 }

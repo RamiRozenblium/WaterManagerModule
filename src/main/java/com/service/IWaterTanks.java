@@ -1,11 +1,13 @@
 package com.service;
 
+import java.math.BigDecimal;
+
 public interface IWaterTanks {
 
-	double getMaxCapacity(int id);
+	BigDecimal getMaxCapacity(int id);
 
-	double getCurrentCapacity(int idTank);
+	BigDecimal getCurrentCapacity(int idTank);
 
-	boolean addWater(int idTanks, double volumeOfLiters);
+	boolean addWater(int idTanks, BigDecimal volumeOfLiters);
 
 }

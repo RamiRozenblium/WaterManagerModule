@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,19 +15,18 @@ public class WaterTanksController {
 	@Autowired
 	WaterTanksService waterTanksService;
 
-	@GetMapping("/max/tank/{id}")
-	double getMaxCapacity(@PathVariable int id) {
+	@GetMapping("/max/{id}")
+	BigDecimal getMaxCapacity(@PathVariable int id) {
 		return waterTanksService.getMaxCapacity(id);
-
 	}
 
-	@GetMapping("/current/tank/{idTank}")
-	double gerCurrentCapacity(@PathVariable int idTank) {
+	@GetMapping("/current/{idTank}")
+	BigDecimal gerCurrentCapacity(@PathVariable int idTank) {
 		return waterTanksService.getCurrentCapacity(idTank);
 	}
 
 	@PostMapping("/tank/{idTanks}/{liters}")
-	boolean addWater(@PathVariable int idTanks, @PathVariable double liters) {
+	boolean addWater(@PathVariable int idTanks, @PathVariable BigDecimal liters) {
 		return waterTanksService.addWater(idTanks, liters);
 	}
 }

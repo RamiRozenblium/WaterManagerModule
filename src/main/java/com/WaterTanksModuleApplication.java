@@ -6,24 +6,25 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.service.WaterTankConfig;
+import com.service.WaterTanksConfig;
+import com.service.WaterTanksService;
 
 @SpringBootApplication
 @EnableScheduling
 public class WaterTanksModuleApplication implements CommandLineRunner {
 
 	@Autowired
-	WaterTankConfig waterTankConfig;
-
+	WaterTanksService waterTankService;
+	
+	@Autowired
+	WaterTanksConfig config;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(WaterTanksModuleApplication.class, args);
-
 	}
 
 	@Override
-	public void run(String... args) throws Exception {
-
-		waterTankConfig.creatTanks();
+	public void run(String... args) {
+		waterTankService.createTanks(config.getCapacityOfTanks(), config.getMaxVolumeOfTank());
 	}
-
 }
